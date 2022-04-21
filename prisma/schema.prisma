@@ -1,0 +1,254 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String     @db.VarChar(255)
+  email       String     @unique @db.VarChar(50)
+  cep         String     @db.VarChar(8)
+  address     String
+  city        String     @db.VarChar(255)
+  state       String     @db.VarChar(2)
+  cpf         String     @db.VarChar(11)
+  firstPhone  String     @db.VarChar(11)
+  secondPhone String?    @db.VarChar(11)
+  jobRole     String     @db.VarChar(50)
+  nick        String?    @db.VarChar(50)
+  password    String
+  userRole    UserRole   @relation(fields: [userRoleId], references: [id])
+  userRoleId  Int
+  Partners    Partners[]
+  Client      Client[]
+}
+
+model UserRole {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  name   String @db.VarChar(255)
+  rotine String @db.VarChar(10)
+  User   User[]
+}
+
+model Partners {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user             User   @relation(fields: [userId], references: [id])
+  userId           Int
+  type             String
+  comapanyName     String
+  fantasyName      String
+  cnpj             String @db.VarChar(14)
+  stateInscription String @db.VarChar(20)
+  cityInscription  String @db.VarChar(20)
+
+  cep     String @db.VarChar(8)
+  address String
+  city    String @db.VarChar(100)
+  state   String @db.VarChar(2)
+
+  firstPhone         String               @db.VarChar(11)
+  firstContactName   String
+  firstEmail         String
+  firstJobRole       String
+  secondPhone        String?              @db.VarChar(11)
+  secondContactName  String?
+  secondEmail        String?
+  secondJobRole      String?
+  thirdPhone         String?              @db.VarChar(11)
+  thirdContactName   String?
+  thirdEmail         String?
+  thirdJobRole       String?
+  PaymentFacilitator PaymentFacilitator[]
+}
+
+model Financial {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  cashier           String @db.VarChar(255)
+  typeIncomeExpense String @db.VarChar(5)
+  name              String
+  typeDeduction     String @db.VarChar(20)
+  Reversal          String @db.VarChar(20)
+}
+
+model PaymentFacilitator {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  partner    Partners @relation(fields: [partnersId], references: [id])
+  partnersId Int
+  type       String   @db.VarChar(10)
+  clientId   Int?
+}
+
+model Categories {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  name              String              @db.VarChar(255)
+  type              String              @db.VarChar(10)
+  iconPath          String              @db.VarChar(255)
+  SubCategories     SubCategories[]
+  Plans             Plans[]
+  Highlights        Highlights[]
+  AdvertisingButton AdvertisingButton[]
+}
+
+model SubCategories {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  name              String              @db.VarChar(255)
+  type              String              @db.VarChar(10)
+  iconPath          String              @db.VarChar(255)
+  categorie         Categories          @relation(fields: [categoriesId], references: [id])
+  categoriesId      Int
+  Highlights        Highlights[]
+  AdvertisingButton AdvertisingButton[]
+}
+
+model Plans {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  name         String
+  description  String     @db.VarChar(10)
+  path         String     @db.VarChar(255)
+  periodicity  String     @db.VarChar(50)
+  advertsLimt  Int
+  category     Categories @relation(fields: [categoriesId], references: [id])
+  categoriesId Int
+}
+
+model Highlights {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  category        Categories    @relation(fields: [categoriesId], references: [id])
+  categoriesId    Int
+  subCategory     SubCategories @relation(fields: [subCategoriesId], references: [id])
+  subCategoriesId Int
+  value           Decimal?      @db.Decimal(10, 2)
+  position        String        @db.VarChar(50)
+  period          String        @db.VarChar(20)
+  shape           String        @db.VarChar(50)
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  seller           User   @relation(fields: [selletId], references: [id])
+  selletId         Int
+  type             String
+  comapanyName     String
+  fantasyName      String
+  cnpj             String @db.VarChar(14)
+  stateInscription String @db.VarChar(20)
+  cityInscription  String @db.VarChar(20)
+
+  cep     String @db.VarChar(8)
+  address String
+  city    String @db.VarChar(100)
+  state   String @db.VarChar(2)
+
+  firstPhone           String                 @db.VarChar(11)
+  firstContactName     String
+  firstEmail           String
+  firstJobRole         String
+  secondPhone          String?                @db.VarChar(11)
+  secondContactName    String?
+  secondEmail          String?
+  secondJobRole        String?
+  thirdPhone           String?                @db.VarChar(11)
+  thirdContactName     String?
+  thirdEmail           String?
+  thirdJobRole         String?
+  AdvertisingInclusion AdvertisingInclusion[]
+}
+
+model Advertising {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  type     String
+  value    Decimal? @db.Decimal(10, 2)
+  position String   @db.VarChar(50)
+}
+
+model FAQ {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  questoin String @db.VarChar(255)
+  answer   String @db.VarChar(255)
+  position String @db.VarChar(50)
+}
+
+model AdvertisingButton {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  name            String
+  category        Categories    @relation(fields: [categoriesId], references: [id])
+  categoriesId    Int
+  subCategory     SubCategories @relation(fields: [subCategoriesId], references: [id])
+  subCategoriesId Int
+}
+
+model Coupons {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  name        String
+  description String  @db.VarChar(255)
+  period      String  @db.VarChar(20)
+  type        String  @db.VarChar(50)
+  cumulative  Boolean
+  multiple    Boolean
+}
+
+model AdvertisingInclusion {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId Int
+  type     String
+  position String @db.VarChar(50)
+  period   String @db.VarChar(20)
+  shape    String @db.VarChar(50)
+  partPath String
+  payment  String @db.VarChar(20)
+}
