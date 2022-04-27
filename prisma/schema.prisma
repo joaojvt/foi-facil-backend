@@ -6,15 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DB_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id Int @id @default(autoincrement())
+
 
   name        String     @db.VarChar(255)
   email       String     @unique @db.VarChar(50)
@@ -32,23 +30,26 @@ model User {
   userRoleId  Int
   Partners    Partners[]
   Client      Client[]
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model UserRole {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   name   String @db.VarChar(255)
   rotine String @db.VarChar(10)
   User   User[]
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model Partners {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id Int @id @default(autoincrement())
+
 
   user             User   @relation(fields: [userId], references: [id])
   userId           Int
@@ -77,48 +78,53 @@ model Partners {
   thirdEmail         String?
   thirdJobRole       String?
   PaymentFacilitator PaymentFacilitator[]
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Financial {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   cashier           String @db.VarChar(255)
   typeIncomeExpense String @db.VarChar(5)
   name              String
   typeDeduction     String @db.VarChar(20)
   Reversal          String @db.VarChar(20)
+
+  createdAt DateTime @default(now())
 }
 
 model PaymentFacilitator {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   partner    Partners @relation(fields: [partnersId], references: [id])
   partnersId Int
   type       String   @db.VarChar(10)
   clientId   Int?
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model Categories {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   name              String              @db.VarChar(255)
-  type              String              @db.VarChar(10)
+  type              String              @db.VarChar(25)
   iconPath          String              @db.VarChar(255)
   SubCategories     SubCategories[]
   Plans             Plans[]
   Highlights        Highlights[]
   AdvertisingButton AdvertisingButton[]
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model SubCategories {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   name              String              @db.VarChar(255)
   type              String              @db.VarChar(10)
@@ -127,12 +133,13 @@ model SubCategories {
   categoriesId      Int
   Highlights        Highlights[]
   AdvertisingButton AdvertisingButton[]
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model Plans {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   name         String
   description  String     @db.VarChar(10)
@@ -141,12 +148,13 @@ model Plans {
   advertsLimt  Int
   category     Categories @relation(fields: [categoriesId], references: [id])
   categoriesId Int
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model Highlights {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   category        Categories    @relation(fields: [categoriesId], references: [id])
   categoriesId    Int
@@ -156,13 +164,13 @@ model Highlights {
   position        String        @db.VarChar(50)
   period          String        @db.VarChar(20)
   shape           String        @db.VarChar(50)
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model Client {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id Int @id @default(autoincrement())
 
   seller           User   @relation(fields: [selletId], references: [id])
   selletId         Int
@@ -191,44 +199,49 @@ model Client {
   thirdEmail           String?
   thirdJobRole         String?
   AdvertisingInclusion AdvertisingInclusion[]
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Advertising {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   type     String
   value    Decimal? @db.Decimal(10, 2)
   position String   @db.VarChar(50)
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model FAQ {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   questoin String @db.VarChar(255)
   answer   String @db.VarChar(255)
   position String @db.VarChar(50)
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model AdvertisingButton {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   name            String
   category        Categories    @relation(fields: [categoriesId], references: [id])
   categoriesId    Int
   subCategory     SubCategories @relation(fields: [subCategoriesId], references: [id])
   subCategoriesId Int
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model Coupons {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   name        String
   description String  @db.VarChar(255)
@@ -236,12 +249,13 @@ model Coupons {
   type        String  @db.VarChar(50)
   cumulative  Boolean
   multiple    Boolean
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
 
 model AdvertisingInclusion {
-  id        Int      @id @default(autoincrement())
-  status    String   @db.VarChar(10)
-  createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
 
   client   Client @relation(fields: [clientId], references: [id])
   clientId Int
@@ -251,4 +265,7 @@ model AdvertisingInclusion {
   shape    String @db.VarChar(50)
   partPath String
   payment  String @db.VarChar(20)
+
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
 }
