@@ -1,13 +1,13 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-enum CategoriesTypes {
+enum CategoriasTypes {
   FAQ = 'FAQ',
   Parceiria = 'Parceria',
   Advertiment = 'Propaganda',
   ProductService = 'produto/serviço',
 }
 
-export class CreateCategoryDto {
+export class CreateCategoriaDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -20,5 +20,5 @@ export class CreateCategoryDto {
   status: string;
 
   @IsNotEmpty()
-  type: CategoriesTypes;
+  type: CategoriasTypes;
 }

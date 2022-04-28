@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { Categories } from '@prisma/client';
+import { Categorias } from '@prisma/client';
 
 import { PrismaService } from '../prisma.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CreateCategoriaDto } from './dto/create-categoria.dto';
+import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 
 @Injectable()
-export class CategoriesService {
+export class CategoriasService {
   constructor(private prisma: PrismaService) {}
 
-  create(createCategoryDto: CreateCategoryDto) {
+  create(createCategoryDto: CreateCategoriaDto) {
     return 'This action adds a new category';
   }
 
-  findAll(): Promise<Categories[]> {
-    return this.prisma.categories.findMany({
+  findAll(): Promise<Categorias[]> {
+    return this.prisma.categorias.findMany({
       where: {
         status: 'Ativo',
       },
@@ -25,7 +25,7 @@ export class CategoriesService {
     return `This action returns a #${id} category`;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  update(id: number, updateCategoryDto: UpdateCategoriaDto) {
     return `This action updates a #${id} category`;
   }
 

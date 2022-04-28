@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { CategoriesModule } from './categories/categories.module';
+import { CategoriasModule } from './categorias/categorias.module';
 import { PrismaService } from './prisma.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 @Module({
   imports: [
-    CategoriesModule,
+    CategoriasModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'static'),
       renderPath: '/*',
