@@ -42,7 +42,8 @@ async function main() {
       },
       {
         nome: 'Agronegócio',
-        caminhoIcone: '/icons/agronegocio.png',
+        caminhoIcone:
+          'https://foifacilbucket.s3.sa-east-1.amazonaws.com/icones/agronegocio.png',
         status: 'Ativo',
         tipoCategoria: 'produto/serviço',
       },

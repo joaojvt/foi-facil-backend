@@ -1,5 +1,5 @@
-generator Cliente {
-  provider = "prisma-Cliente-js"
+generator Client {
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -24,7 +24,7 @@ model User {
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   userRole   UserRole    @relation(fields: [userRoleId], references: [id])
-  Cliente    Cliente[]
+  Cliente    Clientes[]
   Parceiros  Parceiros[]
   telefone   Telefone[]
 }
@@ -36,7 +36,7 @@ model Telefone {
   status    String   @db.VarChar(10)
   createdAt DateTime @default(now())
   clienteId Int?
-  Cliente   Cliente? @relation(fields: [clienteId], references: [id])
+  Cliente   Clientes? @relation(fields: [clienteId], references: [id])
   User      User?    @relation(fields: [userId], references: [id])
 }
 
@@ -155,25 +155,27 @@ model Destaques {
   subCategory    SubCategorias @relation(fields: [subCategoriaId], references: [id])
 }
 
-model Cliente {
-  id                Int                @id @default(autoincrement())
-  vemdedorId        Int
+model Clientes {
+  id Int @id @default(autoincrement())
+
   tipoCliente       String
   razaoSocial       String
   nomeFantasia      String
-  cnpj              String             @db.VarChar(14)
-  inscrisaoEstadual String             @db.VarChar(20)
-  incricaoMunicial  String             @db.VarChar(20)
-  cep               String             @db.VarChar(8)
+  cnpj              String   @db.VarChar(14)
+  inscrisaoEstadual String   @db.VarChar(20)
+  incricaoMunicial  String   @db.VarChar(20)
+  cep               String   @db.VarChar(8)
   endereco          String
-  cidadee           String             @db.VarChar(100)
-  estado            String             @db.VarChar(2)
-  status            String             @db.VarChar(10)
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  vendedor          User               @relation(fields: [vemdedorId], references: [id])
-  AnunciosInclusao  AnunciosInclusao[]
-  telefones         Telefone[]
+  cidadee           String   @db.VarChar(100)
+  estado            String   @db.VarChar(2)
+  status            String   @db.VarChar(10)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  vendedor          User     @relation(fields: [vemdedorId], references: [id])
+  vemdedorId        Int
+
+  AnunciosInclusao AnunciosInclusao[]
+  telefones        Telefone[]
 }
 
 model Anuncios {
@@ -228,5 +230,5 @@ model AnunciosInclusao {
   pagamento String   @db.VarChar(20)
   status    String   @db.VarChar(10)
   createdAt DateTime @default(now())
-  Cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  Cliente   Clientes  @relation(fields: [clienteId], references: [id])
 }

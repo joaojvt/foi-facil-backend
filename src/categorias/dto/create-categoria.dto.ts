@@ -10,15 +10,15 @@ enum CategoriasTypes {
 export class CreateCategoriaDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  nome: string;
 
   @IsNotEmpty()
-  iconPath: string;
+  caminhoIcone: string;
 
   @IsNotEmpty()
   @IsString()
   status: string;
 
   @IsNotEmpty()
-  type: CategoriasTypes;
+  tipoCategoria: CategoriasTypes;
 }

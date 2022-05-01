@@ -9,8 +9,10 @@ import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 export class CategoriasService {
   constructor(private prisma: PrismaService) {}
 
-  create(createCategoryDto: CreateCategoriaDto) {
-    return 'This action adds a new category';
+  create(createCategoriaDto: CreateCategoriaDto) {
+    return this.prisma.categorias.create({
+      data: createCategoriaDto,
+    });
   }
 
   findAll(): Promise<Categorias[]> {
@@ -25,11 +27,23 @@ export class CategoriasService {
     return `This action returns a #${id} category`;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoriaDto) {
-    return `This action updates a #${id} category`;
+  update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
+    return this.prisma.categorias.update({
+      data: updateCategoriaDto,
+      where: {
+        id,
+      },
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} category`;
+    return this.prisma.categorias.update({
+      data: {
+        status: 'INATIVO',
+      },
+      where: {
+        id,
+      },
+    });
   }
 }

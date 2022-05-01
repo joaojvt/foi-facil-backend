@@ -3,7 +3,9 @@ import { CategoriasModule } from './categorias/categorias.module';
 import { PrismaService } from './prisma.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AppController } from './app.controller';
 @Module({
+  controllers: [AppController],
   imports: [
     CategoriasModule,
     ServeStaticModule.forRoot({
