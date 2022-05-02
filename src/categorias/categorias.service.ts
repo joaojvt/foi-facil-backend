@@ -23,8 +23,12 @@ export class CategoriasService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  findOne(id: number): Promise<Categorias> {
+    return this.prisma.categorias.findFirst({
+      where: {
+        id,
+      },
+    });
   }
 
   update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
@@ -39,7 +43,7 @@ export class CategoriasService {
   remove(id: number) {
     return this.prisma.categorias.update({
       data: {
-        status: 'INATIVO',
+        status: 'Inativo',
       },
       where: {
         id,

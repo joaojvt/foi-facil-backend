@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-enum CategoriasTypes {
+export enum CategoriasTypes {
   FAQ = 'FAQ',
   Parceiria = 'Parceria',
   Advertiment = 'Propaganda',
